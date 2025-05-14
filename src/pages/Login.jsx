@@ -1,8 +1,69 @@
-import React from 'react'
+import React, { use, useContext, useEffect } from 'react'
 import Header from '../common/Header'
 import Footer from '../common/Footer'
+import { cartContext } from '../MainContext'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app } from '../FirebaseConfig';
+import { useNavigate } from 'react-router';
+
+
+
 
 export default function Login() {
+
+    let navigate = useNavigate()
+
+    let { user, setUser, token, setToken } = useContext(cartContext)
+
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth( app );
+
+    let googleLogin = () => {
+
+        // ///////////////////////////////////////////////////
+        // ///////////////////////////////////////////////////
+
+        // const auth = getAuth();
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // console.log( user )
+                // console.log( token )
+
+                setUser( user )
+                setToken( token )
+                navigate('/')
+
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            });
+
+        // ///////////////////////////////////////////////////
+        // ///////////////////////////////////////////////////
+
+    }
+
+
+
+    useEffect(() => {
+        if( user ) {
+            navigate('/')
+        }
+    }, [user])
+
+
+
     return (
         <section>
 
@@ -42,14 +103,23 @@ export default function Login() {
                             <div className="flex flex-col space-y-5">
                                 <span className="flex items-center justify-center space-x-2"><span className="h-px bg-gray-400 w-14"></span><span className="font-normal text-gray-500">or login with</span><span className="h-px bg-gray-400 w-14"></span></span>
                                 <div className="flex flex-col space-y-4">
-                                    <button className="flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-300 border border-gray-800 rounded-md group hover:bg-gray-800 focus:outline-none">
+
+
+                                    <button type='button'
+                                        className="flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-300 border border-gray-800 rounded-md group hover:bg-gray-800 focus:outline-none cursor-pointer"
+                                        onClick={googleLogin}
+                                    >
                                         <div className="w-5 text-lg text-gray-800 fill-current group-hover:text-white flex justify-center items-center">
                                             <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 488 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
                                             </svg>
                                         </div>
-                                        <span className="text-sm font-medium text-gray-800 group-hover:text-white">Login with Google</span>
+                                        <span className="text-sm font-medium text-gray-800 group-hover:text-white">
+                                            Login with Google
+                                        </span>
                                     </button>
+
+
                                     <button href="#" className="flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-300 border border-blue-500 rounded-md group hover:bg-blue-500 focus:outline-none">
                                         <div className="w-5 text-xl text-blue-500 group-hover:text-white">
                                             <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">

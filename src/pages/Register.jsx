@@ -1,11 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Header from '../common/Header'
 import Footer from '../common/Footer'
 import { cartContext } from '../MainContext'
+import { useNavigate } from 'react-router';
+
+
+
+
 
 export default function Register() {
 
-    let { cart, setCart } = useContext(cartContext);
+    let navigate = useNavigate()
+
+    let { cart, setCart, user } = useContext(cartContext);
+
+    useEffect(() => {
+        if (user) {
+            navigate('/')
+        }
+    }, [user])
+
 
     return (
         <section>

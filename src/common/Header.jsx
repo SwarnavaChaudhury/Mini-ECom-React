@@ -6,6 +6,10 @@ import { IoLogInOutline } from "react-icons/io5";
 import { LuUserRoundPlus } from "react-icons/lu";
 import { FaStore } from "react-icons/fa";
 import { cartContext } from '../MainContext';
+import { IoLogOutOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+
+
 
 
 
@@ -17,7 +21,10 @@ export default function Header() {
     // consumer 
     // use global variable
     // let obj = useContext(cartContext);
-    let {cart} = useContext(cartContext);
+
+    let { cart, user, setUser, token, setToken } = useContext(cartContext);
+
+
 
     return (
         // <div className='shadow-lg mx-auto sticky top-0 z-[99999]'>
@@ -62,18 +69,43 @@ export default function Header() {
                                         Cart ({cart.length})
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to={'/register'} className='flex justify-center items-center gap-2'>
-                                        <LuUserRoundPlus />
-                                        Register
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to={'/login'} className='flex justify-center items-center gap-2'>
-                                        <IoLogInOutline />
-                                        Login
-                                    </Link>
-                                </li>
+                                {
+                                    user
+                                        ?
+                                        <>
+                                            <li>
+                                                <Link to={'/user-profile'} className='flex justify-center items-center gap-2'>
+                                                    <CgProfile />
+                                                    User Profile
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <button className='flex justify-center items-center gap-2 cursor-pointer' onClick={() => {
+                                                    setUser(null)
+                                                    setToken('')
+                                                }}>
+                                                    <IoLogOutOutline />
+                                                    Logout
+                                                </button>
+                                            </li>
+                                        </>
+                                        :
+                                        <>
+                                            <li>
+                                                <Link to={'/register'} className='flex justify-center items-center gap-2'>
+                                                    <LuUserRoundPlus />
+                                                    Register
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to={'/login'} className='flex justify-center items-center gap-2'>
+                                                    <IoLogInOutline />
+                                                    Login
+                                                </Link>
+                                            </li>
+                                        </>
+                                }
+
                             </ul>
                         </div>
                     </div>

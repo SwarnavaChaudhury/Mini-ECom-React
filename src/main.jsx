@@ -8,6 +8,7 @@ import Cart from './pages/Cart'
 import Products from './pages/Products'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import MainContext from './MainContext'
+import UserProfile from './pages/UserProfile'
 
 
 
@@ -30,6 +31,7 @@ createRoot(document.getElementById('root')).render(
         <Route path='/cart' element={<Cart />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/user-profile' element={<UserProfile />} />
       </Routes>
     </BrowserRouter>
 
