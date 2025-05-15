@@ -18,11 +18,11 @@ export default function UserProfile() {
     // console.log(user)
 
 
-    useEffect(() => {
-        if (!user) {
-            navigate('/')
-        }
-    }, [user])
+    // useEffect(() => {
+    //     if (!user) {
+    //         navigate('/')
+    //     }
+    // }, [user])
 
 
 

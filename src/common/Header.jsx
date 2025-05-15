@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { IoHomeOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
 import { IoLogInOutline } from "react-icons/io5";
@@ -24,6 +24,7 @@ export default function Header() {
 
     let { cart, user, setUser, token, setToken } = useContext(cartContext);
 
+    let navigate=useNavigate()
 
 
     return (
@@ -83,6 +84,7 @@ export default function Header() {
                                                 <button className='flex justify-center items-center gap-2 cursor-pointer' onClick={() => {
                                                     setUser(null)
                                                     setToken('')
+                                                    navigate("/")
                                                 }}>
                                                     <IoLogOutOutline />
                                                     Logout
